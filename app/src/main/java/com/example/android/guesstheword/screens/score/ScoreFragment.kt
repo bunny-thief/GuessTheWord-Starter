@@ -56,14 +56,15 @@ class ScoreFragment : Fragment() {
         viewModelFactory =
             ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(requireArguments()).score)
 
+        // Assign ViewModel to binding variable
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ScoreViewModel::class.java)
 
+        // Set fragment view as lifecycle owner of the binding variable
         binding.scoreViewModel = viewModel
 
-        viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
+        // Set current activity as the lifecycle owner of the binding variable
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
             if (playAgain) {
